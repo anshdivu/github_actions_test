@@ -1,0 +1,30 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, closed]
+
+jobs:
+  detect_changes:
+    name: Detect File Changes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Debug Info
+        run: |
+          echo "Github Pull Request Info:"
+          cat << 'EOF'
+            ${{ toJSON(github.event.pull_request.state) }}
+          EOF
+          echo "Github:"
+          cat << 'EOF'
+            ${{ toJSON(github) }}
+          EOF
