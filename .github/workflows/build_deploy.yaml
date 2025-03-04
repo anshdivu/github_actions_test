@@ -20,6 +20,10 @@ jobs:
 
       - name: Debug Info
         run: |
+          echo "Pull Request Info:"
+          cat << 'EOF'
+            ${{ github.event.pull_request.number }}
+          EOF
           echo "Github Pull Request Info:"
           cat << 'EOF'
             ${{ toJSON(github.event.pull_request.state) }}
@@ -28,3 +32,8 @@ jobs:
           cat << 'EOF'
             ${{ toJSON(github) }}
           EOF
+
+      - name: If Check
+        if: ${{ github.event.pull_request.number }}
+        run: |
+          echo "Pull Request Number: ${{ github.event.pull_request.number }}"
